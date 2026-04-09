@@ -1,0 +1,13 @@
+EVALUADOR:sebastian
+ 
+EVALUADO:josue
+ 
+ESCENARIO ELEGIDO:3
+ 
+RESUMEN DE LA RESPUESTA: con el uso del cdn todo se hacia en el html ahora se puede usar en diversos archivos y ademas de tener una estructura de proyecto más grande
+ 
+QUÉ ENTENDIÓ BIEN: el uso de react
+ 
+QUÉ NECESITA REPASAR: la sintaxis del import
+ 
+
