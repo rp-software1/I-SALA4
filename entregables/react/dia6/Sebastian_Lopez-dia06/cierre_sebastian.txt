@@ -1,0 +1,29 @@
+Pregunta:
+El mock del Día 5 y la API del Día 6 devuelven platos con la misma forma. ¿Qué ventaja tiene eso? ¿Qué habrían tenido que cambiar en el componente si la API devolviera una estructura diferente?
+
+Respuesta:
+La ventaja es que no es necesario modificar el componente al cambiar del mock a la API real, ya que ambos entregan datos con la misma estructura. Esto permite reutilizar el mismo código sin ajustes.
+
+Pregunta:
+Explica el patrón loading/error/data con tus propias palabras. ¿Por qué los tres estados son necesarios? ¿Qué pasa con la experiencia del usuario si falta alguno de los tres?
+
+Respuesta:
+El patrón loading/error/data representa los tres posibles estados de una petición a una API.
+Loading indica que la información se está cargando.
+Error indica que ocurrió un problema al obtener los datos.
+Data indica que los datos llegaron correctamente.
+
+Pregunta:
+El jueves comienza la integración cruzada con el Grupo A. ¿Qué preguntas concretas tienes sobre el backend que necesitas que el de Node te explique para conectar bien el sistema?
+
+Respuesta:
+Las preguntas clave serían:
+¿Cuál es la URL base del backend?
+¿Qué endpoints están disponibles?
+¿Qué estructura tienen las respuestas?
+
+Pregunta:
+Describe con tus palabras qué es un JWT y cómo fluye entre frontend y backend.
+
+Respuesta:
+Un JWT es un token que el backend genera cuando un usuario inicia sesión correctamente. Sirve para identificar al usuario en futuras peticiones.
