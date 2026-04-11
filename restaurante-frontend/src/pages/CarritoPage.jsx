@@ -1,91 +1,45 @@
-import { useState, useEffect } from "react";
-import { platosMock } from "../data/mock";
+import { usePedido } from "../context/PedidoContext";
 
 export default function CarritoPage() {
-
-    const [platos, setPlatos] = useState([]);
-    const [carrito, setCarrito] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    // Simular carga
-    useEffect(() => {
-        setTimeout(() => {
-            setPlatos(platosMock);
-            setLoading(false);
-        }, 800);
-    }, []);
-
-    // Agregar plato
-    function agregarPlato(plato) {
-        setCarrito(prev => {
-            const existe = prev.find(item => item.id === plato.id);
-
-            if (existe) {
-                return prev.map(item =>
-                    item.id === plato.id
-                        ? { ...item, cantidad: item.cantidad + 1 }
-                        : item
-                );
-            } else {
-                return [...prev, { ...plato, cantidad: 1 }];
-            }
-        });
-    }
-
-    // Quitar plato
-    function quitarPlato(id) {
-        setCarrito(prev => prev.filter(item => item.id !== id));
-    }
-
-    // Limpiar carrito
-    function limpiarCarrito() {
-        setCarrito([]);
-    }
-
-    // Total
-    const total = carrito.reduce(
-        (sum, item) => sum + item.precio * item.cantidad,
-        0
-    );
-
-    if (loading) return <p>Cargando menú...</p>;
+    const {
+        pedido,
+        quitarPlato,
+        limpiarPedido,
+        cambiarTipo,
+    } = usePedido();
 
     return (
         <div>
-            <h2>Armar Comanda</h2>
+            <h2>Comanda</h2>
 
-            <h3>Menú</h3>
-            {platos.map(plato => (
-                <div key={plato.id}>
-                    <span>
-                        {plato.nombre} — S/ {plato.precio}
-                    </span>
-                    <button onClick={() => agregarPlato(plato)}>
-                        Agregar
-                    </button>
-                </div>
-            ))}
+            {/* 🔥 PARA TU DEMO */}
+            <p><strong>Tipo:</strong> {pedido.tipo}</p>
+            <p><strong>Mesa ID:</strong> {pedido.mesaId ?? "null"}</p>
 
-            <h3>Comanda</h3>
+            <button onClick={() => cambiarTipo("para_llevar")}>
+                Para llevar
+            </button>
 
-            {carrito.length === 0 ? (
-                <p>No hay platos en la comanda</p>
+            {pedido.items.length === 0 ? (
+                <p>No hay platos</p>
             ) : (
-                carrito.map(item => (
-                    <div key={item.id}>
+                pedido.items.map((item) => (
+                    <div key={item.platoId}>
                         <span>
-                            {item.nombre} x{item.cantidad} — S/ {item.precio * item.cantidad}
+                            {item.nombre} x{item.cantidad} — S/{" "}
+                            {(item.precioUnitario * item.cantidad).toFixed(2)}
                         </span>
-                        <button onClick={() => quitarPlato(item.id)}>
+
+                        <button onClick={() => quitarPlato(item.platoId)}>
                             Quitar
                         </button>
                     </div>
                 ))
             )}
 
-            <h3>Total: S/ {total.toFixed(2)}</h3>
+            <h3>Total: S/ {pedido.total.toFixed(2)}</h3>
 
-            <button onClick={limpiarCarrito}>
+            <button onClick={limpiarPedido}>
                 Limpiar comanda
             </button>
         </div>

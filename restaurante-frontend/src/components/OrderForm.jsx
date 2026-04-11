@@ -1,50 +1,55 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { usePedido } from "../context/PedidoContext";
 
 export default function OrderForm({ mesaNumero }) {
-
-    const [plato, setPlato] = useState("");
+    const [nombre, setNombre] = useState("");
     const [cantidad, setCantidad] = useState(1);
-    const [enviando, setEnviando] = useState(false);
 
-    const navigate = useNavigate();
+    const { agregarPlato, asignarMesa } = usePedido();
 
-    const handleSubmit = (e) => {
+    function handleSubmit(e) {
         e.preventDefault();
 
-        setEnviando(true);
+        if (!nombre) return;
 
-        setTimeout(() => {
-            setEnviando(false);
+        // 🔥 asignar mesa
+        asignarMesa(mesaNumero);
 
-            // 🔥 redirigir después de enviar
-            navigate("/carrito");
+        const plato = {
+            id: Date.now(),
+            nombre,
+            precio: 10,
+        };
 
-        }, 1000);
-    };
+        for (let i = 0; i < cantidad; i++) {
+            agregarPlato(plato);
+        }
+
+        setNombre("");
+        setCantidad(1);
+    }
 
     return (
-        <form onSubmit={handleSubmit} style={{ padding: "20px" }}>
-
+        <div>
             <h2>Comanda — Mesa {mesaNumero}</h2>
 
-            <input
-                value={plato}
-                onChange={(e) => setPlato(e.target.value)}
-                placeholder="Nombre del plato"
-            />
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    placeholder="Nombre del plato"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                />
 
-            <input
-                type="number"
-                value={cantidad}
-                onChange={(e) => setCantidad(e.target.value)}
-                min="1"
-            />
+                <input
+                    type="number"
+                    min="1"
+                    value={cantidad}
+                    onChange={(e) => setCantidad(Number(e.target.value))}
+                />
 
-            <button type="submit" disabled={enviando}>
-                {enviando ? "Enviando..." : "Enviar"}
-            </button>
-
-        </form>
+                <button type="submit">Agregar</button>
+            </form>
+        </div>
     );
 }

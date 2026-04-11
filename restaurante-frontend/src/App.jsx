@@ -8,13 +8,9 @@ import NavBar from "./components/NavBar";
 import DetalleMesa from "./pages/DetalleMesa";
 import NotFound from "./pages/NotFound";
 
-
-
-
 function App() {
   return (
     <BrowserRouter>
-
       <NavBar nombreRestaurante="Restaurante Sebastián" />
 
       <Routes>
@@ -25,7 +21,6 @@ function App() {
         <Route path="/mesas/:id" element={<DetalleMesa />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-
     </BrowserRouter>
   );
 }
