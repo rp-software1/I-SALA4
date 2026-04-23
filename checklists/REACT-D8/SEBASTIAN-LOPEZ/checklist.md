@@ -1,8 +1,8 @@
-alumno: [tunombre]
-sala: I-SALA1
+alumno: [sebastian lopez]
+sala: I-SALA4
 curso: REACT
 dia: 8
-estado: en_progreso
+estado: terminado
 loom: https://www.loom.com/share/1bbcc73a01c943ebbeb833c7e688731d
 ---
 
