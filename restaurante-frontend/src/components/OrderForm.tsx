@@ -1,55 +1,34 @@
-import { useState } from "react";
 import { usePedido } from "../context/PedidoContext";
+import type { Plato } from "../types";
 
-export default function OrderForm({ mesaNumero }) {
-    const [nombre, setNombre] = useState("");
-    const [cantidad, setCantidad] = useState(1);
+interface Props {
+    mesaNumero: string;
+}
 
+export default function OrderForm({ mesaNumero }: Props) {
     const { agregarPlato, asignarMesa } = usePedido();
 
-    function handleSubmit(e) {
+    function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-
-        if (!nombre) return;
-
-        // 🔥 asignar mesa
         asignarMesa(mesaNumero);
-
-        const plato = {
-            id: Date.now(),
-            nombre,
-            precio: 10,
-        };
-
-        for (let i = 0; i < cantidad; i++) {
-            agregarPlato(plato);
-        }
-
-        setNombre("");
-        setCantidad(1);
     }
 
+    const platoEjemplo: Plato = {
+        _id: "1",
+        nombre: "Plato demo",
+        precio: 10,
+    };
+
     return (
-        <div>
-            <h2>Comanda — Mesa {mesaNumero}</h2>
+        <form onSubmit={handleSubmit}>
+            <button type="submit">Asignar Mesa</button>
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Nombre del plato"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                />
-
-                <input
-                    type="number"
-                    min="1"
-                    value={cantidad}
-                    onChange={(e) => setCantidad(Number(e.target.value))}
-                />
-
-                <button type="submit">Agregar</button>
-            </form>
-        </div>
+            <button
+                type="button"
+                onClick={() => agregarPlato(platoEjemplo)}
+            >
+                Agregar Plato Demo
+            </button>
+        </form>
     );
 }

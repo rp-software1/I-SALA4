@@ -1,11 +1,4 @@
-type EstadoMesa = "libre" | "ocupada" | "reservada";
-
-interface Mesa {
-    numero: number;
-    capacidad: number;
-    estado: EstadoMesa;
-    comensales: number;
-}
+import type { Mesa } from "../types";
 
 interface Props {
     mesa: Mesa;

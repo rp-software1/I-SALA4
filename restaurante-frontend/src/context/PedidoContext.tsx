@@ -1,89 +1,89 @@
-import { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
+import type {
+    Plato,
+    TipoPedido,
+    EstadoPedidoContext,
+    PedidoContextType,
+} from "../types";
 
-// 1. Crear contexto
-const PedidoContext = createContext(null);
-
-// 2. Estado inicial
-const estadoInicial = {
+// estado inicial TIPADO
+const estadoInicial: EstadoPedidoContext = {
     mesaId: null,
-    tipo: "mesa", // 'mesa' | 'para_llevar'
+    tipo: "para_llevar",
     estado: "pendiente",
     items: [],
     total: 0,
 };
 
-// 3. Provider
-export function PedidoProvider({ children }) {
-    const [pedido, setPedido] = useState(estadoInicial);
+// 👇 ESTO ES LO QUE TE FALTABA
+const PedidoContext = createContext<PedidoContextType | undefined>(undefined);
 
-    // 🔢 calcular total
-    const calcularTotal = (items) =>
-        items.reduce(
-            (acc, item) => acc + item.precioUnitario * item.cantidad,
-            0
-        );
+export function PedidoProvider({ children }: { children: React.ReactNode }) {
+    // 👇 ESTO EVITA never[]
+    const [pedido, setPedido] = useState<EstadoPedidoContext>(estadoInicial);
 
-    // ➕ Agregar plato
-    const agregarPlato = (plato) => {
+    const agregarPlato = (plato: Plato): void => {
         setPedido((prev) => {
-            const existe = prev.items.find(
-                (i) => i.platoId === plato._id || i.platoId === plato.id
-            );
+            const existe = prev.items.find((i) => i.platoId === plato._id);
 
-            const nuevosItems = existe
-                ? prev.items.map((i) =>
-                    i.platoId === (plato._id || plato.id)
-                        ? { ...i, cantidad: i.cantidad + 1 }
-                        : i
-                )
-                : [
+            if (existe) {
+                return {
+                    ...prev,
+                    items: prev.items.map((i) =>
+                        i.platoId === plato._id
+                            ? { ...i, cantidad: i.cantidad + 1 }
+                            : i
+                    ),
+                    total: prev.total + plato.precio,
+                };
+            }
+
+            return {
+                ...prev,
+                items: [
                     ...prev.items,
                     {
-                        platoId: plato._id || plato.id,
+                        platoId: plato._id,
                         nombre: plato.nombre,
                         cantidad: 1,
                         precioUnitario: plato.precio,
                     },
-                ];
-
-            return {
-                ...prev,
-                items: nuevosItems,
-                total: calcularTotal(nuevosItems),
+                ],
+                total: prev.total + plato.precio,
             };
         });
     };
 
-    // ➖ Quitar plato
-    const quitarPlato = (platoId) => {
+    const quitarPlato = (platoId: string): void => {
         setPedido((prev) => {
-            const nuevosItems = prev.items
-                .map((i) =>
+            const item = prev.items.find((i) => i.platoId === platoId);
+            if (!item) return prev;
+
+            if (item.cantidad === 1) {
+                return {
+                    ...prev,
+                    items: prev.items.filter((i) => i.platoId !== platoId),
+                    total: prev.total - item.precioUnitario,
+                };
+            }
+
+            return {
+                ...prev,
+                items: prev.items.map((i) =>
                     i.platoId === platoId
                         ? { ...i, cantidad: i.cantidad - 1 }
                         : i
-                )
-                .filter((i) => i.cantidad > 0);
-
-            return {
-                ...prev,
-                items: nuevosItems,
-                total: calcularTotal(nuevosItems),
+                ),
+                total: prev.total - item.precioUnitario,
             };
         });
     };
 
-    // 🔄 Cambiar tipo
-    const cambiarTipo = (tipo) => {
-        setPedido((prev) => ({
-            ...prev,
-            tipo,
-            mesaId: tipo === "para_llevar" ? null : prev.mesaId,
-        }));
+    const cambiarTipo = (tipo: TipoPedido): void => {
+        setPedido((prev) => ({ ...prev, tipo }));
     };
 
-    // 🪑 Asignar mesa (🔥 esto arregla tu problema)
-    const asignarMesa = (mesaId) => {
+    const asignarMesa = (mesaId: string): void => {
         setPedido((prev) => ({
             ...prev,
             mesaId,
@@ -91,32 +91,35 @@ export function PedidoProvider({ children }) {
         }));
     };
 
-    // 🧹 Limpiar pedido
-    const limpiarPedido = () => {
+    const limpiarPedido = (): void => {
         setPedido(estadoInicial);
     };
 
+    const value: PedidoContextType = {
+        pedido,
+        agregarPlato,
+        quitarPlato,
+        cambiarTipo,
+        asignarMesa,
+        limpiarPedido,
+    };
+
     return (
-        <PedidoContext.Provider
-            value={{
-                pedido,
-                agregarPlato,
-                quitarPlato,
-                cambiarTipo,
-                asignarMesa,
-                limpiarPedido,
-            }}
-        >
+        <PedidoContext.Provider value={value}>
             {children}
         </PedidoContext.Provider>
     );
 }
 
-// 4. Hook personalizado
-export function usePedido() {
+// hook tipado
+export function usePedido(): PedidoContextType {
     const context = useContext(PedidoContext);
+
     if (!context) {
         throw new Error("usePedido debe usarse dentro de PedidoProvider");
     }
+
     return context;
 }
+
+export default PedidoContext;

@@ -1,8 +1,4 @@
-interface Plato {
-    _id: string;
-    nombre: string;
-    precio: number;
-}
+import type { Plato } from "../types";
 
 interface Props {
     plato: Plato;

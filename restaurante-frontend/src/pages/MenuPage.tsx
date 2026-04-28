@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPlatos, Plato } from "../services/api";
+import type { Plato } from "../types";
 
 export default function MenuPage() {
     const [platos, setPlatos] = useState<Plato[]>([]);

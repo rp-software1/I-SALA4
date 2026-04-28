@@ -1,85 +1,44 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getMesas } from "../services/api";
 import { usePedido } from "../context/PedidoContext";
+import type { Mesa } from "../types";
 
 export default function MesasPage() {
-    const [mesas, setMesas] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [mesas, setMesas] = useState<Mesa[]>([]);
+    const [error, setError] = useState<string | null>(null);
 
     const { asignarMesa } = usePedido();
-    const navigate = useNavigate();
 
-    // 🔄 Cargar mesas desde backend
     useEffect(() => {
-        async function cargarMesas() {
+        async function fetchMesas() {
             try {
                 const data = await getMesas();
                 setMesas(data);
-            } catch (err) {
+            } catch {
                 setError("No se pudieron cargar las mesas");
-            } finally {
-                setLoading(false);
             }
         }
 
-        cargarMesas();
+        fetchMesas();
     }, []);
 
-    // 🪑 Seleccionar mesa
-    const handleSeleccionarMesa = (mesa) => {
-        asignarMesa(mesa._id); // 🔥 esto llena el mesaId
-        navigate("/carrito");
+    const handleSeleccionarMesa = (mesa: Mesa) => {
+        asignarMesa(String(mesa.numero));
     };
-
-    // 🎨 Colores por estado
-    const getColor = (estado) => {
-        switch (estado) {
-            case "disponible":
-                return "#d1fae5"; // verde claro
-            case "ocupada":
-                return "#fee2e2"; // rojo claro
-            case "reservada":
-                return "#fef9c3"; // amarillo
-            case "fuera_servicio":
-                return "#e5e7eb"; // gris
-            default:
-                return "#ffffff";
-        }
-    };
-
-    if (loading) return <p>Cargando mesas...</p>;
-    if (error) return <p style={{ color: "red" }}>{error}</p>;
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h1>Mesas del Restaurante</h1>
+        <div>
+            <h2>Mesas</h2>
 
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-                {mesas.map((mesa) => (
-                    <div
-                        key={mesa._id}
-                        style={{
-                            border: "1px solid black",
-                            padding: "15px",
-                            borderRadius: "10px",
-                            backgroundColor: getColor(mesa.estado),
-                            width: "180px",
-                        }}
-                    >
-                        <h3>Mesa {mesa.numero}</h3>
-                        <p>Capacidad: {mesa.capacidad}</p>
-                        <p>Estado: {mesa.estado}</p>
+            {error && <p>{error}</p>}
 
-                        {/* SOLO si está disponible */}
-                        {mesa.estado === "disponible" && (
-                            <button onClick={() => handleSeleccionarMesa(mesa)}>
-                                Seleccionar
-                            </button>
-                        )}
-                    </div>
-                ))}
-            </div>
+            {mesas.map((mesa) => (
+                <div key={mesa.numero} onClick={() => handleSeleccionarMesa(mesa)}>
+                    <h3>Mesa {mesa.numero}</h3>
+                    <p>Capacidad: {mesa.capacidad}</p>
+                    <p>Estado: {mesa.estado}</p>
+                </div>
+            ))}
         </div>
     );
 }
