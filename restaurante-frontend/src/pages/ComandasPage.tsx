@@ -1,26 +1,28 @@
-import { useState } from "react";
-import OrderForm from "../components/OrderForm";
-import { mesasMock } from "../data/mesas.mock";
+import { useState } from 'react';
+import OrderForm from '../components/OrderForm';
 
-export default function ComandasPage() {
-    const [mesaSeleccionada, setMesaSeleccionada] = useState(1);
+function ComandasPage() {
+    // 🔥 CAMBIO: string, no number
+    const [mesaSeleccionada, setMesaSeleccionada] = useState<string>("");
 
     return (
         <div>
-            <h1>Comandas</h1>
+            <h2>Seleccionar mesa</h2>
 
             <select
                 value={mesaSeleccionada}
                 onChange={(e) => setMesaSeleccionada(e.target.value)}
             >
-                {mesasMock.map((mesa) => (
-                    <option key={mesa.id} value={mesa.numero}>
-                        Mesa {mesa.numero}
-                    </option>
-                ))}
+                <option value="">-- Selecciona una mesa --</option>
+                <option value="1">Mesa 1</option>
+                <option value="2">Mesa 2</option>
             </select>
 
-            <OrderForm mesaNumero={mesaSeleccionada} />
+            {mesaSeleccionada && (
+                <OrderForm mesaNumero={mesaSeleccionada} />
+            )}
         </div>
     );
 }
+
+export default ComandasPage;

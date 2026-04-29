@@ -1,23 +1,21 @@
-import type { Mesa } from "../types";
+import type { Mesa } from '../types';
 
 interface Props {
     mesa: Mesa;
+    onClick: (mesa: Mesa) => void;
 }
 
-export default function MesaCard({ mesa }: Props) {
-    const { numero, capacidad, estado, comensales } = mesa;
-
+function MesaCard({ mesa, onClick }: Props) {
     return (
-        <div className={`card ${estado}`}>
-            <h3>Mesa {numero}</h3>
-            <p>Capacidad: {capacidad}</p>
-            <p>Comensales: {comensales}</p>
-
-            <p>
-                {estado === "libre" && "🟢 Libre"}
-                {estado === "ocupada" && "🔴 Ocupada"}
-                {estado === "reservada" && "🟡 Reservada"}
-            </p>
+        <div
+            onClick={() => onClick(mesa)}
+            style={{ border: '1px solid gray', margin: 8, padding: 8 }}
+        >
+            <h3>Mesa {mesa.numero}</h3>
+            <p>Capacidad: {mesa.capacidad}</p>
+            <p>Estado: {mesa.estado}</p>
         </div>
     );
 }
+
+export default MesaCard;

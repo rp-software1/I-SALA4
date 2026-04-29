@@ -1,46 +1,52 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { mesasMock } from "../data/mesas.mock";
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import type { Mesa } from '../types';
+import { getMesas } from '../services/api';
 
-export default function DetalleMesa() {
-
-    const { id } = useParams();
+function DetalleMesa() {
+    const { mesaId } = useParams<{ mesaId: string }>();
     const navigate = useNavigate();
 
-    const mesa = mesasMock.find(m => String(m.id) === id);
+    const [mesa, setMesa] = useState<Mesa | null>(null);
+    const [cargando, setCargando] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
-    if (!mesa) {
-        return (
-            <div style={{ padding: "20px" }}>
-                <p>Mesa {id} no existe</p>
+    useEffect(() => {
+        if (!mesaId) {
+            navigate('/mesas');
+            return;
+        }
 
-                <button
-                    onClick={() => navigate("/mesas")}
-                    style={{ marginTop: "10px", cursor: "pointer" }}
-                >
-                    Volver a mesas
-                </button>
-            </div>
-        );
-    }
+        const cargarDetalle = async (): Promise<void> => {
+            setCargando(true);
+            try {
+                const data: Mesa[] = await getMesas();
+                const encontrada =
+                    data.find((m) => m._id === mesaId) ?? null;
+                setMesa(encontrada);
+            } catch (err: unknown) {
+                const mensaje =
+                    err instanceof Error ? err.message : 'Error al cargar mesa';
+                setError(mensaje);
+            } finally {
+                setCargando(false);
+            }
+        };
+
+        cargarDetalle();
+    }, [mesaId, navigate]);
+
+    if (cargando) return <p>Cargando...</p>;
+    if (error) return <p>Error: {error}</p>;
+    if (!mesa) return <p>Mesa no encontrada</p>;
 
     return (
-        <div style={{ padding: "20px" }}>
-
-            <Link to="/mesas">← Volver</Link>
-
-            <h1>Mesa {mesa.numero}</h1>
+        <div>
+            <h2>Mesa {mesa.numero}</h2>
             <p>Capacidad: {mesa.capacidad}</p>
-            <p>
-                Estado: {mesa.disponible ? "Disponible" : "Ocupada"}
-            </p>
-
-            <button
-                onClick={() => navigate("/carrito")}
-                style={{ marginTop: "15px", cursor: "pointer" }}
-            >
-                Ir a comanda
-            </button>
-
+            <p>Estado: {mesa.estado}</p>
         </div>
     );
 }
+
+export default DetalleMesa;
