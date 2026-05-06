@@ -5,17 +5,23 @@ interface Props {
     onClick: (mesa: Mesa) => void;
 }
 
-function MesaCard({ mesa, onClick }: Props) {
+export default function MesaCard({ mesa, onClick }: Props) {
     return (
         <div
-            onClick={() => onClick(mesa)}
-            style={{ border: '1px solid gray', margin: 8, padding: 8 }}
+            onClick={() => mesa.estado === 'libre' && onClick(mesa)}
+            style={{
+                border: '1px solid #ccc',
+                padding: 16,
+                borderRadius: 10,
+                background: mesa.estado === 'libre' ? '#e8ffe8' : '#ffe8e8',
+                cursor: mesa.estado === 'libre' ? 'pointer' : 'not-allowed',
+                width: 150,
+                textAlign: 'center',
+            }}
         >
             <h3>Mesa {mesa.numero}</h3>
             <p>Capacidad: {mesa.capacidad}</p>
-            <p>Estado: {mesa.estado}</p>
+            <strong>{mesa.estado}</strong>
         </div>
     );
 }
-
-export default MesaCard;

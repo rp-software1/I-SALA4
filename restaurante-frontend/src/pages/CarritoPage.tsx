@@ -1,61 +1,54 @@
 import { useState } from 'react';
-import type { Pedido } from '../types';
-import { crearPedido } from '../services/api';
 import { usePedido } from '../context/PedidoContext';
+import { crearPedido } from '../services/api';
+import type { Pedido } from '../types';
 
-function CarritoPage() {
-    const { pedido, limpiarPedido } = usePedido();
+export default function CarritoPage() {
+    const { pedido, agregarPlato, quitarPlato, limpiarPedido } = usePedido();
+    const [ok, setOk] = useState<string | null>(null);
 
-    const [enviando, setEnviando] = useState<boolean>(false);
-    const [confirmacion, setConfirmacion] = useState<string | null>(null);
-    const [errorEnvio, setErrorEnvio] = useState<string | null>(null);
+    const enviar = async () => {
+        const body: Omit<Pedido, '_id' | 'creadoEn' | 'actualizadoEn'> = {
+            mesaId: pedido.mesaId,
+            tipo: pedido.tipo,
+            estado: 'pendiente',
+            items: pedido.items,
+            total: pedido.total,
+        };
 
-    const handleEnviarComanda = async (): Promise<void> => {
-        if (pedido.tipo === 'mesa' && !pedido.mesaId) {
-            setErrorEnvio('Selecciona una mesa');
-            return;
-        }
-
-        setEnviando(true);
-        setErrorEnvio(null);
-
-        try {
-            const body: Omit<Pedido, '_id' | 'creadoEn' | 'actualizadoEn'> = {
-                mesaId: pedido.mesaId,
-                tipo: pedido.tipo,
-                estado: 'pendiente',
-                items: pedido.items,
-                total: pedido.total,
-            };
-
-            const res: Pedido = await crearPedido(body);
-
-            setConfirmacion(res._id);
-            limpiarPedido();
-        } catch (err: unknown) {
-            const mensaje =
-                err instanceof Error ? err.message : 'Error al enviar';
-            setErrorEnvio(mensaje);
-        } finally {
-            setEnviando(false);
-        }
+        const res = await crearPedido(body);
+        setOk(res._id);
+        limpiarPedido();
     };
 
-    if (confirmacion) {
-        return <p>Pedido enviado ID: {confirmacion}</p>;
-    }
+    if (ok) return <p>Pedido enviado: {ok}</p>;
 
     return (
         <div>
-            {errorEnvio && <p>{errorEnvio}</p>}
+            <h2>Carrito</h2>
+
+            {pedido.items.map(item => (
+                <div key={item.platoId} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span>{item.nombre}</span>
+
+                    <div>
+                        <button onClick={() => quitarPlato(item.platoId)}>-</button>
+                        <span>{item.cantidad}</span>
+                        <button onClick={() => agregarPlato({
+                            _id: item.platoId,
+                            nombre: item.nombre,
+                            descripcion: '',
+                            precio: item.precioUnitario,
+                            categoria: '',
+                            stock: 0,
+                            disponible: true
+                        })}>+</button>
+                    </div>
+                </div>
+            ))}
 
             <h3>Total: S/ {pedido.total}</h3>
-
-            <button onClick={handleEnviarComanda} disabled={enviando}>
-                {enviando ? 'Enviando...' : 'Enviar'}
-            </button>
+            <button onClick={enviar}>Enviar</button>
         </div>
     );
 }
-
-export default CarritoPage;

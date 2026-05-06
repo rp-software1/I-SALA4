@@ -1,36 +1,18 @@
-// src/types/index.ts
-
-export type EstadoMesa =
-    | 'disponible'
-    | 'ocupada'
-    | 'reservada'
-    | 'fuera_servicio';
-
-export type TipoPedido = 'mesa' | 'para_llevar';
-
-export type EstadoPedido =
-    | 'pendiente'
-    | 'en_preparacion'
-    | 'lista'
-    | 'entregada'
-    | 'cancelada'
-    | 'cerrada';
-
-export interface Mesa {
-    _id: string;                // 🔥 IMPORTANTE
-    numero: number;
-    capacidad: number;
-    estado: EstadoMesa;
-    pedidoActivoId: string | null;
-}
-
 export interface Plato {
     _id: string;
     nombre: string;
     descripcion: string;
     precio: number;
     categoria: string;
+    stock: number;
     disponible: boolean;
+}
+
+export interface Mesa {
+    _id: string;
+    numero: number;
+    capacidad: number;
+    estado: 'libre' | 'ocupada';
 }
 
 export interface ItemPedido {
@@ -40,23 +22,25 @@ export interface ItemPedido {
     precioUnitario: number;
 }
 
-export interface Pedido {
-    _id: string;
-    mesaId: string | null;
-    tipo: TipoPedido;
-    estado: EstadoPedido;
-    items: ItemPedido[];
-    total: number;
-    creadoEn: string;
-    actualizadoEn: string;
-}
+export type TipoPedido = 'mesa' | 'para_llevar';
 
 export interface EstadoPedidoContext {
     mesaId: string | null;
     tipo: TipoPedido;
-    estado: EstadoPedido;
+    estado: 'pendiente' | 'enviado';
     items: ItemPedido[];
     total: number;
+}
+
+export interface Pedido {
+    _id: string;
+    mesaId: string | null;
+    tipo: TipoPedido;
+    estado: string;
+    items: ItemPedido[];
+    total: number;
+    creadoEn: string;
+    actualizadoEn: string;
 }
 
 export interface PedidoContextType {

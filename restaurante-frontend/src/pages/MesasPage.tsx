@@ -1,55 +1,29 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { Mesa } from '../types';
+import { useEffect, useState } from 'react';
 import { getMesas } from '../services/api';
+import type { Mesa } from '../types';
+import { useNavigate } from 'react-router-dom';
 import { usePedido } from '../context/PedidoContext';
 import MesaCard from '../components/MesaCard';
 
-function MesasPage() {
+export default function MesasPage() {
     const [mesas, setMesas] = useState<Mesa[]>([]);
-    const [cargando, setCargando] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-
     const navigate = useNavigate();
     const { asignarMesa } = usePedido();
 
     useEffect(() => {
-        const cargarMesas = async (): Promise<void> => {
-            setCargando(true);
-            try {
-                const data: Mesa[] = await getMesas();
-                setMesas(data);
-            } catch (err: unknown) {
-                const mensaje =
-                    err instanceof Error ? err.message : 'Error al cargar mesas';
-                setError(mensaje);
-            } finally {
-                setCargando(false);
-            }
-        };
-
-        cargarMesas();
+        getMesas().then(setMesas);
     }, []);
 
-    const handleSeleccionarMesa = (mesa: Mesa): void => {
+    const seleccionar = (mesa: Mesa) => {
         asignarMesa(mesa._id);
         navigate('/carrito');
     };
 
-    if (cargando) return <p>Cargando mesas...</p>;
-    if (error) return <p>Error: {error}</p>;
-
     return (
-        <div>
-            {mesas.map((mesa) => (
-                <MesaCard
-                    key={mesa._id}
-                    mesa={mesa}
-                    onClick={handleSeleccionarMesa}
-                />
+        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+            {mesas.map(m => (
+                <MesaCard key={m._id} mesa={m} onClick={seleccionar} />
             ))}
         </div>
     );
 }
-
-export default MesasPage;

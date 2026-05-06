@@ -1,48 +1,26 @@
-import { useState, useEffect } from 'react';
-import type { Plato } from '../types';
+import { useEffect, useState } from 'react';
 import { getPlatos } from '../services/api';
+import type { Plato } from '../types';
 import { usePedido } from '../context/PedidoContext';
-import PlatoCard from '../components/PlatoCard';
 
-function MenuPage() {
+export default function MenuPage() {
     const [platos, setPlatos] = useState<Plato[]>([]);
-    const [cargando, setCargando] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-
     const { agregarPlato } = usePedido();
 
     useEffect(() => {
-        const cargarPlatos = async (): Promise<void> => {
-            setCargando(true);
-            try {
-                const data: Plato[] = await getPlatos();
-                setPlatos(data);
-            } catch (err: unknown) {
-                const mensaje =
-                    err instanceof Error ? err.message : 'Error al cargar menú';
-                setError(mensaje);
-            } finally {
-                setCargando(false);
-            }
-        };
-
-        cargarPlatos();
+        getPlatos().then(setPlatos);
     }, []);
 
-    if (cargando) return <p>Cargando menú...</p>;
-    if (error) return <p>{error}</p>;
-
     return (
-        <div>
-            {platos.map((plato) => (
-                <PlatoCard
-                    key={plato._id}
-                    plato={plato}
-                    onAgregar={agregarPlato}
-                />
+        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+            {platos.map(p => (
+                <div key={p._id} style={{ border: '1px solid #ccc', padding: 12, borderRadius: 10, width: 200 }}>
+                    <h3>{p.nombre}</h3>
+                    <p>{p.descripcion}</p>
+                    <strong>S/ {p.precio}</strong>
+                    <button onClick={() => agregarPlato(p)}>Agregar</button>
+                </div>
             ))}
         </div>
     );
 }
-
-export default MenuPage;
