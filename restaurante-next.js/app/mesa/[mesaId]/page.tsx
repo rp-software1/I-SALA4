@@ -1,3 +1,5 @@
+// archivo: mesa/[mesaId]/page.tsx
+
 export default function Mesa({
     params,
 }: {
