@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-// archivo: mesas/page.tsx
-
-export default function Mesas() {
-    return <h1>Mesas</h1>;
-=======
 import type { Metadata } from 'next';
 import type { Mesa } from '../../src/types';
 
@@ -34,5 +28,4 @@ export default async function MesasPage() {
             </div>
         </div>
     );
->>>>>>> 1a61208 (NEXT-D2-B)
 }
