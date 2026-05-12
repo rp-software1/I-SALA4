@@ -1,8 +1,5 @@
-export default function MenuPage() {
-    return (
-        <div>
-            <h1>Menú</h1>
-            <p>Platos disponibles</p>
-        </div>
-    );
+// archivo: menu/page.tsx
+
+export default function Menu() {
+    return <h1>Menú</h1>;
 }
