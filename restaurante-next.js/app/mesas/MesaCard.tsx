@@ -31,9 +31,16 @@ export default function MesaCard({
     const router = useRouter();
 
     const handleClick = (): void => {
-        if (mesa.estado === 'fuera_servicio') return;
+        if (
+            mesa.estado ===
+            'fuera_servicio'
+        ) {
+            return;
+        }
 
-        router.push(`/mesa/${mesa._id}`);
+        router.push(
+            `/mesa/${mesa._id}`
+        );
     };
 
     return (
@@ -46,7 +53,8 @@ export default function MesaCard({
         text-left
         w-full
         ${colorPorEstado[mesa.estado]}
-        ${mesa.estado === 'fuera_servicio'
+        ${mesa.estado ===
+                    'fuera_servicio'
                     ? 'cursor-not-allowed'
                     : 'cursor-pointer'
                 }
@@ -61,7 +69,10 @@ export default function MesaCard({
             </p>
 
             <p className="text-sm capitalize">
-                {mesa.estado.replace('_', ' ')}
+                {mesa.estado.replace(
+                    '_',
+                    ' '
+                )}
             </p>
         </button>
     );

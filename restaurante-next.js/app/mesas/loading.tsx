@@ -6,7 +6,9 @@ export default function MesasLoading() {
             </h1>
 
             <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                {Array.from({ length: 8 }).map((_, i) => (
+                {Array.from({
+                    length: 8,
+                }).map((_, i) => (
                     <div
                         key={i}
                         className="border-2 border-gray-200 rounded-lg p-4 animate-pulse"
