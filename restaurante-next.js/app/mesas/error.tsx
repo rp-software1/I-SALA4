@@ -3,10 +3,7 @@
 import { useEffect } from 'react';
 
 interface ErrorProps {
-    error: Error & {
-        digest?: string;
-    };
-
+    error: Error & { digest?: string };
     reset: () => void;
 }
 
@@ -15,29 +12,22 @@ export default function MesasError({
     reset,
 }: ErrorProps) {
     useEffect(() => {
-        console.error(
-            'Error en /mesas:',
-            error.message
-        );
+        console.error(error.message);
     }, [error]);
 
     return (
         <div className="text-center mt-12">
-            <p className="text-4xl mb-4">
-                ⚠️
-            </p>
-
-            <h2 className="text-xl font-bold mb-2">
-                No se pudieron cargar las mesas
+            <h2 className="text-xl font-bold mb-4">
+                Error al cargar mesas
             </h2>
 
-            <p className="text-gray-500 mb-6 text-sm">
+            <p className="mb-4 text-gray-500">
                 {error.message}
             </p>
 
             <button
                 onClick={reset}
-                className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+                className="bg-blue-600 text-white px-4 py-2 rounded"
             >
                 Reintentar
             </button>
