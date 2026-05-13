@@ -15,12 +15,19 @@ if (!BASE_URL) {
 }
 
 export async function getMesas(): Promise<Mesa[]> {
-    const res = await fetch(
-        `${BASE_URL}/mesas`,
-        {
+    const url = `${BASE_URL}/mesas`;
+
+    let res: Response;
+
+    try {
+        res = await fetch(url, {
             cache: 'no-store',
-        }
-    );
+        });
+    } catch (err) {
+        throw new Error(
+            `No se pudo conectar con la API en ${url}. Verifica que el backend esté activo y vuelve a intentarlo.`
+        );
+    }
 
     if (!res.ok) {
         throw new Error(
