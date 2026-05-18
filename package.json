@@ -1,0 +1,9 @@
+{
+  "name": "restaurante-root",
+  "version": "1.0.0",
+  "description": "Root package manager to delegate commands to frontend and backend",
+  "scripts": {
+    "start:dev": "npm --prefix restaurante-backend run start:dev",
+    "dev": "npm --prefix restaurante-next.js run dev"
+  }
+}
