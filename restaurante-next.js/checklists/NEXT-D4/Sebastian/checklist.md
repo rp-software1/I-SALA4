@@ -7,7 +7,7 @@ loom: (pendiente)
 ---
 
 ## Bloques
-- [x] A — getMesaById en api.ts + verificar con Postman
+- [x] A — getMesaById en api.ts (Usando búsqueda en lista por fallback)
 - [x] B — page.tsx con fetch real + generateMetadata + notFound()
 - [x] C — MesaDetalle Client Component + Suspense manual
 - [x] D — Server Action cambiarEstadoMesa + revalidatePath
