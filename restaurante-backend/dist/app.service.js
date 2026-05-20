@@ -6,7 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppService = void 0;
+exports.PedidosService = exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
 let AppService = class AppService {
     getHello() {
@@ -17,4 +17,24 @@ exports.AppService = AppService;
 exports.AppService = AppService = __decorate([
     (0, common_1.Injectable)()
 ], AppService);
+let PedidosService = class PedidosService {
+    pedidos = [];
+    create(pedido) {
+        const nuevo = {
+            ...pedido,
+            _id: Date.now().toString(),
+            creadoEn: new Date().toISOString(),
+            actualizadoEn: new Date().toISOString(),
+        };
+        this.pedidos.push(nuevo);
+        return nuevo;
+    }
+    findAll() {
+        return this.pedidos;
+    }
+};
+exports.PedidosService = PedidosService;
+exports.PedidosService = PedidosService = __decorate([
+    (0, common_1.Injectable)()
+], PedidosService);
 //# sourceMappingURL=app.service.js.map
