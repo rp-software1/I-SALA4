@@ -125,3 +125,13 @@ export async function getMesaById(id: string): Promise<Mesa> {
   if (!res.ok) throw new Error(`Error al obtener mesa: ${res.status}`);
   return res.json();
 }
+
+// Opción A: si el backend tiene GET /mesas/:id
+export async function getMesaById(id: string): Promise<Mesa> {
+  const res = await fetch(`${BASE_URL}/mesas/${id}`, { cache: 'no-store' });
+  if (res.status === 404) {
+    throw new Error(`Mesa con ID ${id} no encontrada`);
+  }
+  if (!res.ok) throw new Error(`Error al obtener mesa: ${res.status}`);
+  return res.json();
+}
