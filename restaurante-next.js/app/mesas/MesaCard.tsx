@@ -1,38 +1,21 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
+﻿import Link from 'next/link';
 import type { Mesa } from '../../src/types';
 
 interface MesaCardProps {
-    mesa: Mesa;
+  mesa: Mesa;
 }
 
-const colorPorEstado: Record<Mesa['estado'], string> = {
-    disponible: 'bg-green-100 border-green-400 hover:bg-green-200',
-    ocupada: 'bg-red-100 border-red-400 hover:bg-red-200',
-    reservada: 'bg-yellow-100 border-yellow-400 hover:bg-yellow-200',
-    fuera_servicio: 'bg-gray-100 border-gray-400',
-};
-
 export default function MesaCard({ mesa }: MesaCardProps) {
-    const router = useRouter();
-    const estado = mesa.estado ?? 'disponible';
-    const estadoLabel = estado.replace('_', ' ');
-    const fueraServicio = estado === 'fuera_servicio';
+  const colorFondo = mesa.estado === 'disponible' ? 'bg-green-100 border-green-500' :
+                     mesa.estado === 'ocupada' ? 'bg-red-100 border-red-500' :
+                     mesa.estado === 'reservada' ? 'bg-yellow-100 border-yellow-500' :
+                     'bg-gray-100 border-gray-500';
 
-    const handleClick = (): void => {
-        if (fueraServicio) return;
-        router.push(`/mesa/${mesa._id}`);
-    };
-
-    return (
-        <button
-            onClick={handleClick}
-            className={`border-2 rounded-lg p-4 text-left w-full ${colorPorEstado[estado]} ${fueraServicio ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-        >
-            <p className="font-bold text-lg">Mesa {mesa.numero}</p>
-            <p className="text-sm text-gray-600">Cap: {mesa.capacidad}</p>
-            <p className="text-sm capitalize">{estadoLabel}</p>
-        </button>
-    );
+  return (
+    <Link href={`/mesa/${mesa._id}`} className={`block border-2 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer ${colorFondo}`}>
+      <h3 className="font-bold text-xl mb-2">Mesa {mesa.numero}</h3>
+      <p className="text-sm text-gray-600">Capacidad: {mesa.capacidad} personas</p>
+      <p className="text-sm mt-2 capitalize font-medium">Estado: {mesa.estado.replace('_', ' ')}</p>
+    </Link>
+  );
 }
