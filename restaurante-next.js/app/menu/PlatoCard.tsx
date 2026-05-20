@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { usePedido } from '../../src/context/PedidoProvider';
 
 import type { Plato } from '../../src/types';
 
@@ -11,10 +12,11 @@ interface PlatoCardProps {
 export default function PlatoCard({
     plato,
 }: PlatoCardProps) {
-    const [agregado, setAgregado] =
-        useState<boolean>(false);
+    const [agregado, setAgregado] = useState<boolean>(false);
+    const { agregarPlato } = usePedido();
 
     const handleAgregar = (): void => {
+        agregarPlato(plato);
         setAgregado(true);
 
         setTimeout(() => {
@@ -28,27 +30,16 @@ export default function PlatoCard({
 
     return (
         <div className="border rounded-lg p-4 bg-white shadow-sm">
-            <h3 className="font-bold text-lg mb-1">
-                {plato.nombre}
-            </h3>
+            <h3 className="font-bold text-lg mb-1">{plato.nombre}</h3>
 
-            <p className="text-sm text-gray-500 mb-2">
-                {plato.descripcion}
-            </p>
+            <p className="text-sm text-gray-500 mb-2">{plato.descripcion}</p>
 
-            <p className="text-sm text-gray-400 mb-3 capitalize">
-                {plato.categoria}
-            </p>
+            <p className="text-sm text-gray-400 mb-3 capitalize">{plato.categoria}</p>
 
             <div className="flex justify-between items-center">
-                <span className="font-bold text-blue-700">
-                    S/ {plato.precio.toFixed(2)}
-                </span>
+                <span className="font-bold text-blue-700">S/ {plato.precio.toFixed(2)}</span>
 
-                <button
-                    onClick={handleAgregar}
-                    className={btnClass}
-                >
+                <button onClick={handleAgregar} className={btnClass}>
                     {agregado ? '✓ Agregado' : 'Agregar'}
                 </button>
             </div>
