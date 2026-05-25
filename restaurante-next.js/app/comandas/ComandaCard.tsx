@@ -1,20 +1,19 @@
-﻿// app/comandas/ComandaCard.tsx
-'use client';
+﻿'use client';
 
 import { useTransition } from 'react';
 import type { Pedido, EstadoPedido } from '../../src/types';
 import { avanzarEstadoPedido } from './actions';
 
 const SIGUIENTE: Partial<Record<EstadoPedido, EstadoPedido>> = {
-  pendiente: 'en_preparacion',
-  en_preparacion: 'lista',
-  lista: 'entregado',
+  pendiente: 'preparando',
+  preparando: 'listo',
+  listo: 'entregado',
 }
 
 const CONFIG: Record<EstadoPedido, { color: string; label: string }> = {
   pendiente:      { color: 'bg-orange-100 border-orange-400 text-orange-800', label: 'Pendiente' },
-  en_preparacion: { color: 'bg-blue-100 border-blue-400 text-blue-800',   label: 'En preparación' },
-  lista:          { color: 'bg-purple-100 border-purple-400 text-purple-800', label: 'Lista' },
+  preparando:     { color: 'bg-blue-100 border-blue-400 text-blue-800',   label: 'Preparando' },
+  listo:          { color: 'bg-purple-100 border-purple-400 text-purple-800', label: 'Listo' },
   entregado:      { color: 'bg-green-100 border-green-400 text-green-800',  label: 'Entregado' },
   cancelado:      { color: 'bg-gray-100 border-gray-400 text-gray-600',    label: 'Cancelado' },
 }
