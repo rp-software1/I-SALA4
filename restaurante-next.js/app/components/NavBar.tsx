@@ -1,30 +1,34 @@
-// archivo: NavBar.tsx
-
-'use client';
+﻿'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { usePedido } from '../../src/context/PedidoProvider';
 
 export default function NavBar() {
-    const pathname = usePathname();
+  const pathname = usePathname();
+  const { pedido } = usePedido();
 
-    const activo = (ruta: string) =>
-        pathname === ruta ? 'font-bold text-blue-600' : '';
+  const totalItems = pedido.items.reduce((acc, item) => acc + item.cantidad, 0);
 
-    const { pedido } = usePedido();
-    const totalItems = pedido.items.reduce((acc, it) => acc + it.cantidad, 0);
+  const esActiva = (ruta: string): string =>
+    pathname === ruta ? 'font-bold text-blue-700 underline' : 'text-gray-700 hover:text-blue-600';
 
-    return (
-        <nav className="flex gap-4 p-4 bg-white shadow">
-            <Link href="/mesas" className={activo('/mesas')}>Mesas</Link>
-            <Link href="/menu" className={activo('/menu')}>Menú</Link>
-            <Link href="/carrito" className={`flex items-center gap-2 ${activo('/carrito')}`}>
-                Carrito
-                {totalItems > 0 && (
-                    <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">{totalItems}</span>
-                )}
-            </Link>
-        </nav>
-    );
+  return (
+    <nav className="bg-white shadow px-6 py-3 flex gap-6 items-center">
+      <span className="font-bold text-lg mr-4">🍽 Restaurante</span>
+      <Link href="/mesas"  className={esActiva("/mesas")}>Mesas</Link>
+      <Link href="/menu"   className={esActiva("/menu")}>Menú</Link>
+      <Link href="/carrito" className={`${esActiva("/carrito")} relative`}>
+        Carrito
+        {totalItems > 0 && (
+          <span className="ml-1 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+            {totalItems}
+          </span>
+        )}
+      </Link>
+      <Link href="/comandas" className={esActiva("/comandas")}>
+        Comandas
+      </Link>
+    </nav>
+  );
 }
