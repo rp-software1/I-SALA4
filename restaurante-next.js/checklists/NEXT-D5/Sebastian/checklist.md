@@ -17,6 +17,6 @@ loom: (pendiente)
 ## Verificación final
 - [x] /comandas muestra pedidos reales del backend
 - [x] Avanzar estado → lista actualizada automáticamente
-- [x] Flujo pendiente→en_preparacion→lista→entregada funciona
+- [x] Flujo pendiente→preparando→listo→entregado funciona
 - [x] npx tsc --noEmit → 0 errores
 - [ ] PR aprobado por sala par
