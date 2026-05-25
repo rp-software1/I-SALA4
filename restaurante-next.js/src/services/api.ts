@@ -25,3 +25,10 @@ export async function getMesaById(id: string): Promise<Mesa> {
   if (!res.ok) throw new Error(`Error al obtener mesa: ${res.status}`);
   return res.json();
 }
+
+export async function getPedidos(): Promise<Pedido[]> {
+  if (!BASE_URL) throw new Error('NEXT_PUBLIC_API_URL no configurada');
+  const res = await fetch(`${BASE_URL}/pedidos`, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`Error al obtener pedidos: ${res.status}`);
+  return res.json();
+}
