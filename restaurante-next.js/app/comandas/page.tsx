@@ -4,20 +4,18 @@ import type { Pedido } from "../../src/types";
 import { getPedidos } from '../../src/services/api';
 import ComandaCard from "./ComandaCard";
 
-// Metadata estática — sin async
 export const metadata: Metadata = {
   title: 'Comandas — Restaurante',
 };
 
-// Ordenar por urgencia
 const ORDEN: Record<string, number> = {
-  pendiente: 0, en_preparacion: 1, lista: 2, entregada: 3, cancelada: 4,
+  pendiente: 0, en_preparacion: 1, lista: 2, entregado: 3, cancelado: 4,
 }
 
 export default async function ComandasPage() {
   const pedidos: Pedido[] = await getPedidos();
   const ord = [...pedidos].sort((a,b)=>(ORDEN[a.estado]??5)-(ORDEN[b.estado]??5));
-  const activos  = ord.filter(p => p.estado !== 'entregada' && p.estado !== 'cancelada');
+  const activos  = ord.filter(p => p.estado !== 'entregado' && p.estado !== 'cancelado');
   const cerrados = ord.filter(p => !activos.includes(p));
 
   return (

@@ -5,26 +5,23 @@ import { useTransition } from 'react';
 import type { Pedido, EstadoPedido } from '../../src/types';
 import { avanzarEstadoPedido } from './actions';
 
-// Flujo del negocio — solo estados con siguiente
 const SIGUIENTE: Partial<Record<EstadoPedido, EstadoPedido>> = {
   pendiente: 'en_preparacion',
   en_preparacion: 'lista',
-  lista: 'entregada',
-  // entregada y cancelada no tienen siguiente
+  lista: 'entregado',
 }
 
 const CONFIG: Record<EstadoPedido, { color: string; label: string }> = {
   pendiente:      { color: 'bg-orange-100 border-orange-400 text-orange-800', label: 'Pendiente' },
   en_preparacion: { color: 'bg-blue-100 border-blue-400 text-blue-800',   label: 'En preparación' },
   lista:          { color: 'bg-purple-100 border-purple-400 text-purple-800', label: 'Lista' },
-  entregada:      { color: 'bg-green-100 border-green-400 text-green-800',  label: 'Entregada' },
-  cancelada:      { color: 'bg-gray-100 border-gray-400 text-gray-600',    label: 'Cancelada' },
-  cerrada:        { color: 'bg-gray-100 border-gray-400 text-gray-600',    label: 'Cerrada' },
+  entregado:      { color: 'bg-green-100 border-green-400 text-green-800',  label: 'Entregado' },
+  cancelado:      { color: 'bg-gray-100 border-gray-400 text-gray-600',    label: 'Cancelado' },
 }
 
 export default function ComandaCard({ pedido }: { pedido: Pedido }) {
   const [isPending, startTransition] = useTransition();
-  const config = CONFIG[pedido.estado] ?? CONFIG.cancelada;
+  const config = CONFIG[pedido.estado] ?? CONFIG.cancelado;
   const siguiente = SIGUIENTE[pedido.estado];
   const hora = new Date(pedido.creadoEn).toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit' });
 

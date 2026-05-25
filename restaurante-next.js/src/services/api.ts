@@ -1,4 +1,4 @@
-﻿import type { Mesa, Plato } from '../types';
+﻿import type { Mesa, Plato, Pedido } from '../types';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -19,9 +19,7 @@ export async function getPlatos(): Promise<Plato[]> {
 export async function getMesaById(id: string): Promise<Mesa> {
   if (!BASE_URL) throw new Error('NEXT_PUBLIC_API_URL no configurada');
   const res = await fetch(`${BASE_URL}/mesas/${id}`, { cache: 'no-store' });
-  if (res.status === 404) {
-    throw new Error(`Mesa con ID ${id} no encontrada`);
-  }
+  if (res.status === 404) throw new Error(`Mesa con ID ${id} no encontrada`);
   if (!res.ok) throw new Error(`Error al obtener mesa: ${res.status}`);
   return res.json();
 }
