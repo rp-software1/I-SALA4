@@ -3,7 +3,7 @@ sala: I-SALA1
 curso: Next.js
 dia: 4
 estado: completado
-loom: (pendiente)
+loom: https://www.loom.com/share/05d57f16313e48f0b3e580772793e904
 ---
 
 ## Bloques
@@ -19,4 +19,4 @@ loom: (pendiente)
 - [x] Pestaña del browser muestra "Mesa N — Restaurante"
 - [x] Cambiar estado → la mesa en /mesas se actualiza
 - [x] npx tsc --noEmit → 0 errores
-- [ ] PR aprobado por sala par
+

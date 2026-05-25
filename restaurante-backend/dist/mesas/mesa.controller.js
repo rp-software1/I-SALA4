@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MesaController = void 0;
 const common_1 = require("@nestjs/common");
@@ -20,6 +23,20 @@ let MesaController = class MesaController {
     findAll() {
         return this.mesaService.findAll();
     }
+    findOne(id) {
+        const mesa = this.mesaService.findOne(id);
+        if (!mesa) {
+            throw new common_1.NotFoundException(`Mesa con ID ${id} no encontrada`);
+        }
+        return mesa;
+    }
+    updateEstado(id, estado) {
+        const mesa = this.mesaService.updateEstado(id, estado);
+        if (!mesa) {
+            throw new common_1.NotFoundException(`Mesa con ID ${id} no encontrada`);
+        }
+        return mesa;
+    }
 };
 exports.MesaController = MesaController;
 __decorate([
@@ -28,6 +45,21 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Array)
 ], MesaController.prototype, "findAll", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Object)
+], MesaController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)('estado')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Object)
+], MesaController.prototype, "updateEstado", null);
 exports.MesaController = MesaController = __decorate([
     (0, common_1.Controller)('mesas'),
     __metadata("design:paramtypes", [mesa_service_1.MesaService])

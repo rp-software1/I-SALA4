@@ -32,6 +32,16 @@ let MesaService = class MesaService {
     findAll() {
         return this.mesas;
     }
+    findOne(id) {
+        return this.mesas.find((mesa) => mesa._id === id);
+    }
+    updateEstado(id, nuevoEstado) {
+        const mesa = this.findOne(id);
+        if (!mesa)
+            return undefined;
+        mesa.estado = nuevoEstado;
+        return mesa;
+    }
 };
 exports.MesaService = MesaService;
 exports.MesaService = MesaService = __decorate([

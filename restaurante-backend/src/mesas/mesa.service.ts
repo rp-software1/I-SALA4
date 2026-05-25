@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Mesa } from './mesa.entity';
+import type { Mesa, EstadoMesa } from './mesa.entity';
 
 @Injectable()
 export class MesaService {
@@ -26,5 +26,16 @@ export class MesaService {
 
   findAll(): Mesa[] {
     return this.mesas;
+  }
+
+  findOne(id: string): Mesa | undefined {
+    return this.mesas.find((mesa) => mesa._id === id);
+  }
+
+  updateEstado(id: string, nuevoEstado: EstadoMesa): Mesa | undefined {
+    const mesa = this.findOne(id);
+    if (!mesa) return undefined;
+    mesa.estado = nuevoEstado;
+    return mesa;
   }
 }
