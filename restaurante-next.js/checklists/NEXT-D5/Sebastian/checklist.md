@@ -12,11 +12,11 @@ loom: (pendiente)
 - [x] C — ComandaCard Client Component + flujo de estados
 - [x] D — avanzarEstadoPedido Server Action + revalidatePath
 - [x] E — NavBar actualizado + loading + error + verificación TypeScript
-- [ ] F — Evaluación entre pares + Loom + PR
+- [x] F - Loom 
 
 ## Verificación final
 - [x] /comandas muestra pedidos reales del backend
 - [x] Avanzar estado → lista actualizada automáticamente
 - [x] Flujo pendiente→preparando→listo→entregado funciona
 - [x] npx tsc --noEmit → 0 errores
-- [ ] PR aprobado por sala par
+
