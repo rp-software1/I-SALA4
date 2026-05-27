@@ -19,11 +19,6 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_PE',
   },
-  twitter: {
-    card: 'summary',
-    title: 'Sistema de Restaurante',
-    description: 'Panel de gestión de mesas, menú y comandas del restaurante.',
-  },
 };
 
 export default function RootLayout({
