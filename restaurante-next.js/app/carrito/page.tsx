@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { usePedido } from '../../src/context/PedidoProvider';
 import { enviarComanda } from './actions';
@@ -19,19 +19,22 @@ export default function CarritoPage() {
     0
   );
 
+  useEffect(() => {
+    document.title = pedido.items.length > 0
+      ? `Carrito (${pedido.items.length}) — Sistema de Restaurante`
+      : 'Carrito — Sistema de Restaurante';
+  }, [pedido.items.length]);
+
   const handleEnviar = async (): Promise<void> => {
     setEnviando(true);
     setErrorEnvio(null);
-
     const resultado = await enviarComanda(pedido);
-
     if (resultado.ok) {
       setConfirmacion(resultado.pedidoId);
       limpiarPedido();   
     } else {
       setErrorEnvio(resultado.error);
     }
-
     setEnviando(false);
   };
 
@@ -69,56 +72,28 @@ export default function CarritoPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Tu Carrito</h1>
-
       <div className="space-y-3 mb-6">
         {pedido.items.map((item: ItemPedido) => (
           <div key={item.platoId} className="flex justify-between items-center bg-white rounded-lg p-4 shadow-sm">
             <div>
               <p className="font-medium">{item.nombre}</p>
-              <p className="text-sm text-gray-500">
-                S/ {item.precioUnitario.toFixed(2)} × {item.cantidad}
-              </p>
+              <p className="text-sm text-gray-500">S/ {item.precioUnitario.toFixed(2)} × {item.cantidad}</p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="font-bold">
-                S/ {(item.precioUnitario * item.cantidad).toFixed(2)}
-              </span>
-              <button
-                onClick={() => quitarPlato(item.platoId)}
-                className="text-red-500 hover:text-red-700 text-lg font-bold"
-              >
-                −
-              </button>
+              <span className="font-bold">S/ {(item.precioUnitario * item.cantidad).toFixed(2)}</span>
+              <button onClick={() => quitarPlato(item.platoId)} className="text-red-500 hover:text-red-700 text-lg font-bold">−</button>
             </div>
           </div>
         ))}
       </div>
-
       <div className="bg-white rounded-lg p-4 shadow-sm mb-6">
-        <div className="flex justify-between text-lg font-bold">
-          <span>Total</span>
-          <span>S/ {totalVisual.toFixed(2)}</span>
-        </div>
+        <div className="flex justify-between text-lg font-bold"><span>Total</span><span>S/ {totalVisual.toFixed(2)}</span></div>
       </div>
-
-      {errorEnvio && (
-        <p className="text-red-500 text-sm mb-3">{errorEnvio}</p>
-      )}
-      
-      <button
-        onClick={handleEnviar}
-        disabled={enviando}
-        className="w-full bg-blue-600 text-white rounded py-3 font-bold hover:bg-blue-700 disabled:opacity-50"
-      >
+      {errorEnvio && <p className="text-red-500 text-sm mb-3">{errorEnvio}</p>}
+      <button onClick={handleEnviar} disabled={enviando} className="w-full bg-blue-600 text-white rounded py-3 font-bold hover:bg-blue-700 disabled:opacity-50">
         {enviando ? "Enviando comanda..." : "Enviar comanda"}
       </button>
-
-      <button
-        onClick={limpiarPedido}
-        className="w-full mt-2 border border-gray-300 rounded py-2 text-gray-500 hover:bg-gray-50"
-      >
-        Vaciar carrito
-      </button>
+      <button onClick={limpiarPedido} className="w-full mt-2 border border-gray-300 rounded py-2 text-gray-500 hover:bg-gray-50">Vaciar carrito</button>
     </div>
   );
 }
