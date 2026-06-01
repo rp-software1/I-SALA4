@@ -4,10 +4,7 @@ import NavBar from './components/NavBar';
 import PedidoProvider from '../src/context/PedidoProvider';
 
 export const metadata: Metadata = {
-  title: {
-    default: 'Sistema de Restaurante',
-    template: '%s — Sistema de Restaurante',
-  },
+  title: 'Sistema de Restaurante',
   description: 'Panel de gestión de mesas, menú y comandas del restaurante.',
   robots: {
     index: false,

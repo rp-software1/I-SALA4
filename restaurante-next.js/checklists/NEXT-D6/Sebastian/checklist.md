@@ -3,7 +3,7 @@ sala: I-SALA1
 curso: Next.js
 dia: 6
 estado: completado
-loom: (pendiente)
+loom: https://www.loom.com/share/afe5589609c449d5929b16e75882a4c8
 ---
 
 ## Bloques
@@ -12,11 +12,11 @@ loom: (pendiente)
 - [x] C — Auditoría del proyecto
 - [x] D — npm run build sin errores + .env.production.local
 - [x] E — Verificación TypeScript final
-- [ ] F — Evaluación entre pares + Loom + PR
+- [X] F — Loom
 
 ## Verificación final
 - [x] Cada página tiene título único en la pestaña del browser
 - [x] npm run build completa sin errores
 - [x] npx tsc --noEmit → 0 errores
 - [x] .env.production.local creado
-- [ ] PR aprobado por sala par
+

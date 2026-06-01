@@ -19,11 +19,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   try {
     const mesa = await getMesaById(mesaId);
     return {
-      title: `Mesa ${mesa.numero} — Restaurante`,
       description: `Estado: ${mesa.estado} | Capacidad: ${mesa.capacidad} personas`,
     };
   } catch {
-    return { title: 'Mesa no encontrada — Restaurante' };
+    return {};
   }
 }
 

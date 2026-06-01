@@ -1,10 +1,4 @@
-﻿import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Página no encontrada',
-}
-
-export default function NotFound() {
+﻿export default function NotFound() {
   return (
     <div className="text-center mt-16">
       <h1 className="text-4xl font-bold mb-4">404</h1>

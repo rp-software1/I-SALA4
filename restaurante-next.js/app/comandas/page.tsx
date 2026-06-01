@@ -1,11 +1,6 @@
-﻿import type { Metadata } from 'next';
-import type { Pedido } from "../../src/types";
+﻿import type { Pedido } from "../../src/types";
 import { getPedidos } from '../../src/services/api';
 import ComandaCard from "./ComandaCard";
-
-export const metadata: Metadata = {
-  title: 'Comandas — Restaurante',
-};
 
 const ORDEN: Record<string, number> = {
   pendiente: 0, preparando: 1, listo: 2, entregado: 3, cancelado: 4,

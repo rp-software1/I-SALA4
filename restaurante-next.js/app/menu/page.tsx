@@ -4,7 +4,6 @@ import { getPlatos } from '../../src/services/api';
 import PlatoCard from './PlatoCard';
 
 export const metadata: Metadata = {
-  title: 'Menú',
   description: 'Menú completo del restaurante con platos disponibles y precios.',
 }
 
