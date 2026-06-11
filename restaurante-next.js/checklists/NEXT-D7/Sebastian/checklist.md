@@ -3,8 +3,8 @@ sala: I-SALA1
 curso: Next.js
 dia: 7
 estado: completado
-vercel_url: https://TU_URL_DE_VERCEL.vercel.app
-loom: (pendiente)
+vercel_url: https://i-sala-4-7p7drxows-sebasdefinitivo1-9687s-projects.vercel.app
+loom: https://www.loom.com/share/0d0d64f845ec46adb3cd07b1a56c30d8
 ---
 
 ## Bloques
