@@ -84,5 +84,34 @@
     "_id": "1780334518672",
     "creadoEn": "2026-06-01T17:21:58.673Z",
     "actualizadoEn": "2026-06-01T17:21:58.673Z"
+  },
+  {
+    "mesaId": null,
+    "tipo": "para_llevar",
+    "estado": "entregado",
+    "items": [
+      {
+        "platoId": "1",
+        "nombre": "Lomo saltado",
+        "cantidad": 1,
+        "precioUnitario": 32.5
+      },
+      {
+        "platoId": "2",
+        "nombre": "Ceviche mixto",
+        "cantidad": 1,
+        "precioUnitario": 28
+      },
+      {
+        "platoId": "3",
+        "nombre": "Ají de gallina",
+        "cantidad": 1,
+        "precioUnitario": 24
+      }
+    ],
+    "total": 84.5,
+    "_id": "1781157224332",
+    "creadoEn": "2026-06-11T05:53:44.332Z",
+    "actualizadoEn": "2026-06-11T05:53:54.235Z"
   }
 ]
