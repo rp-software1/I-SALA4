@@ -1,30 +1,36 @@
-﻿// app/comandas/actions.ts
-'use server';
+﻿'use server';
 
 import { revalidatePath } from 'next/cache';
 import type { EstadoPedido, Pedido } from '../../src/types';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
+const defaultHeaders = {
+  'Content-Type': 'application/json',
+  'X-Requested-With': 'XMLHttpRequest',
+};
+
 export async function avanzarEstadoPedido(
   pedidoId: string,
   nuevoEstado: EstadoPedido
 ): Promise<{ ok: true; pedido: Pedido } | { ok: false; error: string }> {
-  if (!BASE_URL) return { ok: false, error: 'NEXT_PUBLIC_API_URL no configurada' };
+  if (!BASE_URL) {
+    return { ok: false, error: 'NEXT_PUBLIC_API_URL no configurada' };
+  }
+
   try {
     const res = await fetch(`${BASE_URL}/pedidos/${pedidoId}/estado`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-      },
+      headers: defaultHeaders,
       body: JSON.stringify({ estado: nuevoEstado }),
       cache: 'no-store',
     });
+
     if (!res.ok) {
       const txt = await res.text();
       return { ok: false, error: `Error ${res.status}: ${txt}` };
     }
+
     const pedido: Pedido = await res.json();
     revalidatePath('/comandas');
     return { ok: true, pedido };
