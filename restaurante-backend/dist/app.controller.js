@@ -31,6 +31,18 @@ let AppController = class AppController {
     listarPedidos() {
         return this.pedidosService.findAll();
     }
+    actualizarEstado(id, estado) {
+        const actualizado = this.pedidosService.updateEstado(id, estado);
+        if (!actualizado)
+            throw new common_1.NotFoundException('Pedido no encontrado');
+        return actualizado;
+    }
+    obtenerPedido(id) {
+        const pedido = this.pedidosService.findById(id);
+        if (!pedido)
+            throw new common_1.NotFoundException('Pedido no encontrado');
+        return pedido;
+    }
 };
 exports.AppController = AppController;
 __decorate([
@@ -52,6 +64,21 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "listarPedidos", null);
+__decorate([
+    (0, common_1.Patch)('pedidos/:id/estado'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)('estado')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "actualizarEstado", null);
+__decorate([
+    (0, common_1.Get)('pedidos/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "obtenerPedido", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService,

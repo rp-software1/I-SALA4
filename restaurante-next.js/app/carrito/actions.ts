@@ -15,7 +15,10 @@ export async function enviarComanda(
   try {
     const res = await fetch(`${BASE_URL}/pedidos`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+      },
       body: JSON.stringify({
         mesaId:  pedido.mesaId,
         tipo:    pedido.tipo,

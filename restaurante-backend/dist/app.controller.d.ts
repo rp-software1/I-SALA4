@@ -6,4 +6,6 @@ export declare class AppController {
     getHello(): string;
     createPedido(body: any): import("./app.service").Pedido;
     listarPedidos(): import("./app.service").Pedido[];
+    actualizarEstado(id: string, estado: string): import("./app.service").Pedido;
+    obtenerPedido(id: string): import("./app.service").Pedido;
 }

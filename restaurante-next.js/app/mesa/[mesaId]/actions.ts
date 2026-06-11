@@ -19,7 +19,10 @@ export async function cambiarEstadoMesa(
     // Ajustar la URL según el resultado de Postman (PATCH /mesas/:id)
     const res = await fetch(`${BASE_URL}/mesas/${mesaId}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+      },
       body: JSON.stringify({ estado: nuevoEstado }),
       cache: 'no-store',
     });

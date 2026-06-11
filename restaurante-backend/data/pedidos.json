@@ -1,0 +1,88 @@
+[
+  {
+    "mesaId": null,
+    "tipo": "para_llevar",
+    "estado": "entregado",
+    "items": [
+      {
+        "platoId": "1",
+        "nombre": "Lomo saltado",
+        "cantidad": 1,
+        "precioUnitario": 32.5
+      },
+      {
+        "platoId": "2",
+        "nombre": "Ceviche mixto",
+        "cantidad": 1,
+        "precioUnitario": 28
+      },
+      {
+        "platoId": "4",
+        "nombre": "Choclo con queso",
+        "cantidad": 1,
+        "precioUnitario": 12
+      }
+    ],
+    "total": 72.5,
+    "_id": "1779742710096",
+    "creadoEn": "2026-05-25T20:58:30.096Z",
+    "actualizadoEn": "2026-05-25T20:59:07.478Z"
+  },
+  {
+    "mesaId": null,
+    "tipo": "para_llevar",
+    "estado": "entregado",
+    "items": [
+      {
+        "platoId": "4",
+        "nombre": "Choclo con queso",
+        "cantidad": 1,
+        "precioUnitario": 12
+      }
+    ],
+    "total": 12,
+    "_id": "1779858735961",
+    "creadoEn": "2026-05-27T05:12:15.961Z",
+    "actualizadoEn": "2026-05-27T05:12:45.563Z"
+  },
+  {
+    "mesaId": null,
+    "tipo": "para_llevar",
+    "estado": "entregado",
+    "items": [
+      {
+        "platoId": "1",
+        "nombre": "Lomo saltado",
+        "cantidad": 1,
+        "precioUnitario": 32.5
+      },
+      {
+        "platoId": "2",
+        "nombre": "Ceviche mixto",
+        "cantidad": 1,
+        "precioUnitario": 28
+      }
+    ],
+    "total": 60.5,
+    "_id": "1779859199330",
+    "creadoEn": "2026-05-27T05:19:59.330Z",
+    "actualizadoEn": "2026-05-27T05:20:24.724Z"
+  },
+  {
+    "mesaId": null,
+    "tipo": "para_llevar",
+    "estado": "pendiente",
+    "items": [
+      {
+        "platoId": "1",
+        "nombre": "Lomo saltado",
+        "cantidad": 1,
+        "precioUnitario": 32.5
+      }
+    ],
+    "total": 32.5,
+    "_id": "1780334518672",
+    "creadoEn": "2026-06-01T17:21:58.673Z",
+    "actualizadoEn": "2026-06-01T17:21:58.673Z"
+  }
+]
